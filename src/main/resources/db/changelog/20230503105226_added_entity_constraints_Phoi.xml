@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+  http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+    <!--
+        Added the constraints for entity Phoi.
+    -->
+    <changeSet id="20230503105226-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="donvi_symbol"
+                                 baseTableName="phoi"
+                                 constraintName="fk_phoi__donvi_symbol"
+                                 referencedColumnNames="symbol"
+                                 referencedTableName="donvi"/>
+
+        <addForeignKeyConstraint baseColumnNames="diploma_type_symbol"
+                                 baseTableName="phoi"
+                                 constraintName="fk_phoi__diploma_type_symbol"
+                                 referencedColumnNames="symbol"
+                                 referencedTableName="diploma_type"/>
+    </changeSet>
+</databaseChangeLog>

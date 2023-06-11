@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.ketlv.ediplomadapp.mapper.GraduationCatalogMapper">
+    <insert id="createGraduationCatalog" parameterType="io.ketlv.ediplomadapp.domain.GraduationCatalog"
+            useGeneratedKeys="true" keyProperty="graduation_catalog.id" keyColumn="id">
+        INSERT INTO GRADUATION_CATALOG(title, decision_graduation, year_graduation, content, note, created_by,
+                                       created_date, last_modified_by, last_modified_date)
+        VALUES(#{title}, #{decisionGraduation}, #{yearGraduation}, #{content}, #{note}, #{createdBy},
+               #{createdDate}, #{lastModifiedBy}, #{lastModifiedDate}) RETURNING id;
+        <selectKey keyProperty = "id" resultType = "long" order = "AFTER">
+            select LASTVAL() as id
+        </selectKey>
+    </insert>
+
+    <resultMap id="catalogResultMap" type="io.ketlv.ediplomadapp.domain.GraduationCatalog">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="decision_graduation" property="decisionGraduation"/>
+        <result column="year_graduation" property="yearGraduation"/>
+        <result column="content" property="content"/>
+        <result column="note" property="note"/>
+    </resultMap>
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+  http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+    <!--
+        Added the constraints for entity Donvi.
+    -->
+    <changeSet id="20230503105222-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="address_ward_id"
+                                 baseTableName="donvi"
+                                 constraintName="fk_donvi__address_ward_id"
+                                 referencedColumnNames="ward_zipcode"
+                                 referencedTableName="ward"/>
+    </changeSet>
+</databaseChangeLog>

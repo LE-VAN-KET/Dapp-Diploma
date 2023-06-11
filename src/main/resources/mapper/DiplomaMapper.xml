@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.ketlv.ediplomadapp.mapper.DiplomaMapper">
+    <insert id="insertDiploma" parameterType="io.ketlv.ediplomadapp.domain.Diploma"
+            useGeneratedKeys="true" keyProperty="diploma.id" keyColumn="id">
+        INSERT INTO diploma
+        (graduation_catalog_id, major_id, student_id, full_name, date_of_birth, place_of_origin, sex, indigenous_id,
+         nationality_id, ranking_id, year_graduation, mode_of_study, donvi_symbol, serial_number, reference_number,
+         signer, signer_title, foreign_language, level_foreign_language, date_of_enrollment, date_of_graduation,
+         training_course, date_of_defend, hoi_dong_thi, decision_number, decision_establishing_council, req_type_id,
+         gpa, diploma_type_symbol, training_period_semester, total_credits, diploma_link, appendix_lnk, hash,
+         transaction_id, note, status, created_by, created_date, last_modified_by, last_modified_date)
+        VALUES(#{graduationCatalogId}, #{majorId}, #{studentId}, #{fullName}, #{dateOfBirth}, #{placeOfOrigin}, #{sex},
+               #{indigenousId}, #{nationalityId}, #{rankingId}, #{yearGraduation}, #{modeOfStudy}, #{donviSymbol},
+               #{serialNumber}, #{referenceNumber}, #{signer}, #{signerTitle}, #{foreignLanguage}, #{levelForeignLanguage},
+               #{dateOfEnrollment}, #{dateOfGraduation}, #{trainingCourse}, #{dateOfDefend}, #{hoiDongThi}, #{decisionNumber},
+               #{decisionEstablishingCouncil}, #{reqTypeId}, #{gpa}, #{diplomaTypeSymbol}, #{trainingPeriodSemester},
+               #{totalCredits}, #{diplomaLink}, #{appendixLnk}, #{hash}, #{transactionId}, #{note}, #{status}, #{createdBy},
+               #{createdDate}, #{lastModifiedBy}, #{lastModifiedDate}) RETURNING id;
+        <selectKey keyProperty = "id" resultType = "long" order = "AFTER">
+            select LASTVAL() as id
+        </selectKey>
+    </insert>
+    <insert id="insertListDiploma" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="diploma.id" keyColumn="id">
+        INSERT INTO diploma
+        (graduation_catalog_id, major_id, student_id, full_name, date_of_birth, place_of_origin, sex, indigenous_id,
+         nationality_id, ranking_id, year_graduation, mode_of_study, donvi_symbol, serial_number, reference_number,
+         signer, signer_title, foreign_language, level_foreign_language, date_of_enrollment, date_of_graduation,
+         training_course, date_of_defend, hoi_dong_thi, decision_number, decision_establishing_council, req_type_id,
+         gpa, diploma_type_symbol, training_period_semester, total_credits, diploma_link, appendix_lnk, hash,
+         transaction_id, note, status, created_by, created_date, last_modified_by, last_modified_date)
+        VALUES
+        <foreach collection="list" item="element" index="index" open="(" separator="),("  close=")">
+            #{element.graduationCatalogId}, #{element.majorId}, #{element.studentId}, #{element.fullName}, #{element.dateOfBirth}, #{element.placeOfOrigin}, #{element.sex},
+            #{element.indigenousId}, #{element.nationalityId}, #{element.rankingId}, #{element.yearGraduation}, #{element.modeOfStudy}, #{element.donviSymbol},
+            #{element.serialNumber}, #{element.referenceNumber}, #{element.signer}, #{element.signerTitle}, #{element.foreignLanguage}, #{element.levelForeignLanguage},
+            #{element.dateOfEnrollment}, #{element.dateOfGraduation}, #{element.trainingCourse}, #{element.dateOfDefend}, #{element.hoiDongThi}, #{element.decisionNumber},
+            #{element.decisionEstablishingCouncil}, #{element.reqTypeId}, #{element.gpa}, #{element.diplomaTypeSymbol}, #{element.trainingPeriodSemester},
+            #{element.totalCredits}, #{element.diplomaLink}, #{element.appendixLnk}, #{element.hash}, #{element.transactionId}, #{element.note}, #{element.status}, #{element.createdBy},
+            #{element.createdDate}, #{element.lastModifiedBy}, #{element.lastModifiedDate}
+        </foreach>
+    </insert>
+    <select id="findAll" resultMap = "resultAll">
+        select dip.*, mj.name as major, inds.indigenous_name as indigenous, na.nationality_name as nationality, dt."name" as diploma_type,
+               rg.ranking_name as ranking, rt.req_type_name as req_type, dv.name as donvi
+        from diploma dip inner join major mj on mj.id=dip.major_id
+                         inner join indigenous inds on inds.indigenous_id = dip.indigenous_id
+                         inner join nationality na on na.nationality_id = dip.nationality_id
+                         inner join diploma_type dt on dt.symbol = dip.diploma_type_symbol
+                         inner join ranking_graduation rg on rg.id = dip.ranking_id
+                         inner join request_type rt on rt.id = dip.req_type_id
+                         inner join donvi dv on dv.symbol = dip.donvi_symbol
+
+    </select>
+
+    <resultMap id="resultAll" type="io.ketlv.ediplomadapp.services.dto.DiplomaDto">
+        <result column="id" property="id"/>
+        <result column="graduation_catalog_id" property="graduationCatalogId"/>
+        <result column="major" property="major"/>
+        <result column="student_id" property="studentId"/>
+        <result column="full_name" property="fullName"/>
+        <result column="date_of_birth" property="dateOfBirth"/>
+        <result column="place_of_origin" property="placeOfOrigin"/>
+        <result column="sex" property="sex"/>
+        <result column="indigenous" property="indigenous"/>
+        <result column="nationality" property="nationality"/>
+        <result column="ranking" property="ranking"/>
+        <result column="year_graduation" property="yearGraduation"/>
+        <result column="mode_of_study" property="modeOfStudy"/>
+        <result column="donvi" property="donvi"/>
+        <result column="serial_number" property="serialNumber"/>
+        <result column="reference_number" property="referenceNumber"/>
+        <result column="signer" property="signer"/>
+        <result column="signer_title" property="signerTitle"/>
+        <result column="foreign_language" property="foreignLanguage"/>
+        <result column="level_foreign_language" property="levelForeignLanguage"/>
+        <result column="date_of_enrollment" property="dateOfEnrollment"/>
+        <result column="date_of_graduation" property="dateOfGraduation"/>
+        <result column="training_course" property="trainingCourse"/>
+        <result column="date_of_defend" property="dateOfDefend"/>
+        <result column="hoi_dong_thi" property="hoiDongThi"/>
+        <result column="decision_number" property="decisionNumber"/>
+        <result column="hoi_dong_thi" property="hoiDongThi"/>
+        <result column="decision_establishing_council" property="decisionEstablishingCouncil"/>
+        <result column="req_type" property="reqType"/>
+        <result column="gpa" property="gpa"/>
+        <result column="diploma_type" property="diplomaType"/>
+        <result column="training_period_semester" property="trainingPeriodSemester"/>
+        <result column="total_credits" property="totalCredits"/>
+        <result column="diploma_link" property="diplomaLink"/>
+        <result column="appendix_lnk" property="appendixLnk"/>
+        <result column="note" property="note"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <resultMap id="diplomaResultMap" type="io.ketlv.ediplomadapp.domain.Diploma">
+        <result column="id" property="id"/>
+        <result column="graduation_catalog_id" property="graduationCatalogId"/>
+        <result column="major_id" property="majorId"/>
+        <result column="student_id" property="studentId"/>
+        <result column="full_name" property="fullName"/>
+        <result column="date_of_birth" property="dateOfBirth"/>
+        <result column="place_of_origin" property="placeOfOrigin"/>
+        <result column="sex" property="sex"/>
+        <result column="indigenous_id" property="indigenousId"/>
+        <result column="nationality_id" property="nationalityId"/>
+        <result column="ranking_id" property="rankingId"/>
+        <result column="year_graduation" property="yearGraduation"/>
+        <result column="mode_of_study" property="modeOfStudy"/>
+        <result column="donvi_symbol" property="donviSymbol"/>
+        <result column="serial_number" property="serialNumber"/>
+        <result column="reference_number" property="referenceNumber"/>
+        <result column="signer" property="signer"/>
+        <result column="signer_title" property="signerTitle"/>
+        <result column="foreign_language" property="foreignLanguage"/>
+        <result column="level_foreign_language" property="levelForeignLanguage"/>
+        <result column="date_of_enrollment" property="dateOfEnrollment"/>
+        <result column="date_of_graduation" property="dateOfGraduation"/>
+        <result column="training_course" property="trainingCourse"/>
+        <result column="date_of_defend" property="dateOfDefend"/>
+        <result column="hoi_dong_thi" property="hoiDongThi"/>
+        <result column="decision_number" property="decisionNumber"/>
+        <result column="hoi_dong_thi" property="hoiDongThi"/>
+        <result column="decision_establishing_council" property="decisionEstablishingCouncil"/>
+        <result column="req_type_id" property="reqTypeId"/>
+        <result column="gpa" property="gpa"/>
+        <result column="diploma_type_symbol" property="diplomaTypeSymbol"/>
+        <result column="training_period_semester" property="trainingPeriodSemester"/>
+        <result column="total_credits" property="totalCredits"/>
+        <result column="diploma_link" property="diplomaLink"/>
+        <result column="appendix_lnk" property="appendixLnk"/>
+        <result column="hash" property="hash"/>
+        <result column="transaction_id" property="transactionId"/>
+        <result column="note" property="note"/>
+        <result column="status" property="status"/>
+    </resultMap>
+</mapper>

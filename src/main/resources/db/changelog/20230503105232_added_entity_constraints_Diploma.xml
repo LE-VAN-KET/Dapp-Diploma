@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+  http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+    <!--
+        Added the constraints for entity Ward.
+    -->
+    <changeSet id="20230503105232-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="graduation_catalog_id"
+                                 baseTableName="diploma"
+                                 constraintName="fk_diploma__catalog_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="graduation_catalog"/>
+
+        <addForeignKeyConstraint baseColumnNames="major_id"
+                                 baseTableName="diploma"
+                                 constraintName="fk_diploma__major_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="major"/>
+
+        <addForeignKeyConstraint baseColumnNames="student_id"
+                                 baseTableName="diploma"
+                                 constraintName="fk_diploma__student_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+
+        <addForeignKeyConstraint baseColumnNames="indigenous_id"
+                                 baseTableName="diploma"
+                                 constraintName="fk_diploma__indigenous_id"
+                                 referencedColumnNames="indigenous_id"
+                                 referencedTableName="indigenous"/>
+
+        <addForeignKeyConstraint baseColumnNames="nationality_id"
+                                 baseTableName="diploma"
+                                 constraintName="fk_diploma__nationality_id"
+                                 referencedColumnNames="nationality_id"
+                                 referencedTableName="nationality"/>
+
+        <addForeignKeyConstraint baseColumnNames="ranking_id"
+                                 baseTableName="diploma"
+                                 constraintName="fk_diploma__ranking_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="ranking_graduation"/>
+
+        <addForeignKeyConstraint baseColumnNames="req_type_id"
+                                 baseTableName="diploma"
+                                 constraintName="fk_diploma__req_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="request_type"/>
+
+        <addForeignKeyConstraint baseColumnNames="diploma_type_symbol"
+                                 baseTableName="diploma"
+                                 constraintName="fk_diploma__diploma_type_symbol"
+                                 referencedColumnNames="symbol"
+                                 referencedTableName="diploma_type"/>
+    </changeSet>
+</databaseChangeLog>
