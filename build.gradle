@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     implementation 'com.google.guava:guava:29.0-jre'
-    implementation 'org.hyperledger.fabric:fabric-gateway-java:2.2.0'
+    implementation 'org.hyperledger.fabric:fabric-gateway-java:2.2.8'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -42,7 +42,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.github.ipfs/java-ipfs-http-client
     implementation 'com.github.ipfs:java-ipfs-http-client:v1.3.3'
     // https://mvnrepository.com/artifact/io.minio/minio
-    implementation 'io.minio:minio:8.5.3'
+    implementation 'io.minio:minio:8.2.1'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

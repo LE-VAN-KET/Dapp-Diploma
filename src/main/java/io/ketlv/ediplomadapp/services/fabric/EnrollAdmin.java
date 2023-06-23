@@ -23,9 +23,9 @@ public class EnrollAdmin {
         // Create a CA client for interacting with the CA.
         Properties props = new Properties();
         props.put("pemFile",
-                "C:\\Users\\MSI\\Desktop\\Dapp-Diploma\\src\\main\\resources\\"+ "ca." + org + "-cert.pem");
+                "src/main/resources/ca." + org + "-cert.pem");
         props.put("allowAllHostNames", "true");
-        HFCAClient caClient = HFCAClient.createNewInstance("https://34.143.181.194:" + port, props);
+        HFCAClient caClient = HFCAClient.createNewInstance("https://localhost:" + port, props);
         CryptoSuite cryptoSuite = CryptoSuiteFactory.getDefault().getCryptoSuite();
         caClient.setCryptoSuite(cryptoSuite);
 
@@ -40,11 +40,11 @@ public class EnrollAdmin {
 
         // Enroll the admin user, and import the new identity into the wallet.
         final EnrollmentRequest enrollmentRequestTLS = new EnrollmentRequest();
-        enrollmentRequestTLS.addHost("34.143.181.194");
+        enrollmentRequestTLS.addHost("localhost");
         enrollmentRequestTLS.setProfile("tls");
         Enrollment enrollment = caClient.enroll("admin", "adminpw", enrollmentRequestTLS);
         Identity user = Identities.newX509Identity("Org" + orgNo + "MSP", enrollment);
-        wallet.put("org1admin", user);
+        wallet.put("admin", user);
         log.info("Successfully enrolled user \"admin\" and imported it into the wallet");
     }
 }

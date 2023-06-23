@@ -78,7 +78,7 @@ public class DiplomaController {
     }
 
     @PatchMapping("/{refNumber}")
-    public ResponseEntity<?> updateStatusDiploma(@PathVariable("refNumber") String refNumber, @Valid @RequestBody DiplomaStatusReq req) {
+    public ResponseEntity<?> updateStatusDiploma(@PathVariable("refNumber") String refNumber, @Valid @RequestBody DiplomaStatusReq req) throws Exception {
          diplomaService.updateStatus(req, refNumber);
         return new ResponseEntity<>("Update status successfully.", HttpStatus.OK);
     }

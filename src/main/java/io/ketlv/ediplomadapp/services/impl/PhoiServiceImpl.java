@@ -9,6 +9,7 @@ import io.ketlv.ediplomadapp.services.dto.PhoiDtoReq;
 import io.ketlv.ediplomadapp.services.dto.PhoiDtoRes;
 import io.ketlv.ediplomadapp.services.dto.PhoiListRes;
 import io.ketlv.ediplomadapp.services.dto.PhoiPaging;
+import io.ketlv.ediplomadapp.services.fabric.ChainCode;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -39,6 +40,14 @@ public class PhoiServiceImpl implements PhoiService {
         // update serial number to diploma before insert phoi
         UpdatePropertiesPhoi(phoiDto, phoi, maxNumber, serialNumberEnd, phoi.getDiplomaTypeSymbol());
         phoiMapper.insert(phoi);
+        List<Diploma> diplomaList = diplomaMapper.selectAllByRangeSerialNumber(phoi.getSerialNumberBegin(), phoi.getSerialNumberEnd());
+        try {
+            for(Diploma dip : diplomaList) {
+                ChainCode.issueDiploma(dip, "src/main/resources/connection-org1.yaml");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -55,4 +55,8 @@ public interface DiplomaMapper {
 
     @Select("select DISTINCT year_graduation from diploma")
     List<Long> selectListYearGraduation();
+
+    @Update("select * from diploma where serial_number >= #{serialNumberBegin} and serial_number <= #{serialNumberEnd}")
+    @ResultMap("diplomaResultMap")
+    List<Diploma> selectAllByRangeSerialNumber(@Param("serialNumberBegin") String serialNumberBegin, @Param("serialNumberEnd") String serialNumberEnd);
 }

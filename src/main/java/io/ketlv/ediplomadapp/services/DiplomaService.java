@@ -52,7 +52,7 @@ public interface DiplomaService {
     void delete(Long id);
 
     void verifiedDiplomas(VerifiedDiplomaReq req);
-    void updateStatus(DiplomaStatusReq req, String refNumber);
+    void updateStatus(DiplomaStatusReq req, String refNumber) throws Exception;
     byte[] loadFileDiploma(String hash);
     List<Long> getListYearGraduation();
 }

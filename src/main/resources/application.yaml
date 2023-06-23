@@ -68,6 +68,6 @@ minio:
   access:
     key: admin
     secret: password@123
-  url: http://34.143.181.194:9000
+  url: http://localhost:9000
 
 
