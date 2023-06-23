@@ -35,6 +35,14 @@ public class ChainCode {
         }
     }
 
+    public static void main(String[] args) {
+        try {
+            EnrollAdmin.execute("issuer.com", "1054", 1);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
     public static void issueDiploma(Diploma diploma, String configPathOrg) throws Exception {
         // enrolls the admin and registers the user
         try {
