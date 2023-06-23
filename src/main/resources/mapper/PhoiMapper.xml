@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.ketlv.ediplomadapp.mapper.PhoiMapper">
+    <insert id="insert" parameterType="io.ketlv.ediplomadapp.domain.Phoi"
+            useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO PHOI(title, serial_number_begin, serial_number_end, loai_phoi, ngay_mua,
+                         ngay_nhap_kho, note, created_by, created_date, last_modified_by, last_modified_date,
+                         donvi_symbol, diploma_type_symbol, amount_issued_new_print, amount_issued_student, amount_unused)
+        VALUES(#{title}, #{serialNumberBegin}, #{serialNumberEnd}, #{loaiPhoi}, #{ngayMua},
+               #{ngayNhapKho}, #{note}, #{createdBy}, #{createdDate}, #{lastModifiedBy}, #{lastModifiedDate},
+               #{donviSymbol}, #{diplomaTypeSymbol}, #{amountIssuedNewPrint}, #{amountIssuedStudent}, #{amountUnused});
+    </insert>
+
+    <select id="getAll" resultMap = "resultAllDto" parameterType="io.ketlv.ediplomadapp.services.dto.PhoiPaging">
+        select p.*, dv.name as donvi, dp.name as diploma_type from phoi p
+            inner join donvi dv on dv.symbol = p.donvi_symbol
+            inner join diploma_type dp on dp.symbol = p.diploma_type_symbol
+        <if test="pageSize != null">
+            LIMIT #{pageSize}
+        </if>
+        <if test="page != null">
+            OFFSET #{page}
+        </if>
+    </select>
+
+    <update id="update" parameterType="io.ketlv.ediplomadapp.domain.Phoi">
+        UPDATE phoi
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="donviSymbol != null">
+                donvi_symbol=#{donviSymbol},
+            </if>
+            <if test="amountIssuedStudent != null">
+                amount_issued_student = #{amountIssuedStudent},
+            </if>
+            <if test="loaiPhoi != null">
+                loai_phoi = #{loaiPhoi},
+            </if>
+            <if test="ngayMua != null">
+                ngay_mua = #{ngayMua},
+            </if>
+            <if test="ngayNhapKho != null">
+                ngay_nhap_kho = #{ngayNhapKho},
+            </if>
+            <if test="note != null">
+                note = #{note},
+            </if>
+            <if test="diplomaTypeSymbol != null">
+                diploma_type_symbol = #{diplomaTypeSymbol},
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date = #{lastModifiedDate},
+            </if>
+            <if test="amountIssuedStudent != null">
+                amount_issued_new_print = #{amountIssuedStudent},
+            </if>
+            <if test="amountUnused != null">
+                amount_unused = #{amountUnused},
+            </if>
+        </set>
+        where id= #{id}
+    </update>
+
+    <resultMap id="resultAllDto" type="io.ketlv.ediplomadapp.services.dto.PhoiDtoRes">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="donvi" property="donvi"/>
+        <result column="diploma_type" property="diplomaType"/>
+        <result column="amount_old_stock" property="amountOldStock"/>
+        <result column="amount_issued_new_print" property="amountIssuedNewPrint"/>
+        <result column="amount_broken" property="amountBroken"/>
+        <result column="amount_issued_student" property="amountIssuedStudent"/>
+        <result column="amount_unused" property="amountUnused"/>
+        <result column="serial_number_begin" property="serialNumberBegin"/>
+        <result column="serial_number_end" property="serialNumberEnd"/>
+        <result column="loai_phoi" property="loaiPhoi"/>
+        <result column="ngay_mua" property="ngayMua"/>
+        <result column="ngay_nhap_kho" property="ngayNhapKho"/>
+        <result column="note" property="note"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
+    </resultMap>
+
+    <resultMap id="resultMapPhoi" type="io.ketlv.ediplomadapp.domain.Phoi">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="donvi_symbol" property="donviSymbol"/>
+        <result column="diploma_type_symbol" property="diplomaTypeSymbol"/>
+        <result column="amount_old_stock" property="amountOldStock"/>
+        <result column="amount_issued_new_print" property="amountIssuedNewPrint"/>
+        <result column="amount_broken" property="amountBroken"/>
+        <result column="amount_issued_student" property="amountIssuedStudent"/>
+        <result column="amount_unused" property="amountUnused"/>
+        <result column="serial_number_begin" property="serialNumberBegin"/>
+        <result column="serial_number_end" property="serialNumberEnd"/>
+        <result column="loai_phoi" property="loaiPhoi"/>
+        <result column="ngay_mua" property="ngayMua"/>
+        <result column="ngay_nhap_kho" property="ngayNhapKho"/>
+        <result column="note" property="note"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
+    </resultMap>
+
+</mapper>

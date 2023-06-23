@@ -56,4 +56,5 @@ public class User extends AbstractAuditingEntity<String> {
     public Long getAuthorityId() {
         return authorityId;
     }
+
 }

@@ -19,11 +19,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="major"/>
 
-        <addForeignKeyConstraint baseColumnNames="student_id"
-                                 baseTableName="diploma"
-                                 constraintName="fk_diploma__student_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="user"/>
+<!--        <addForeignKeyConstraint baseColumnNames="student_id"-->
+<!--                                 baseTableName="diploma"-->
+<!--                                 constraintName="fk_diploma__student_id"-->
+<!--                                 referencedColumnNames="id"-->
+<!--                                 referencedTableName="user"/>-->
 
         <addForeignKeyConstraint baseColumnNames="indigenous_id"
                                  baseTableName="diploma"

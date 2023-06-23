@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.ketlv.ediplomadapp.mapper.UserMapper">
+    <insert id="addUser" parameterType="io.ketlv.ediplomadapp.domain.User">
+        INSERT INTO "user"(id, username, email, password, init_password, first_login, verified, authority_id, created_by,
+                         created_date, last_modified_by, last_modified_date)
+        VALUES (#{id}, #{username}, #{email}, #{password}, #{initPassword}, #{firstLogin}, #{verified}, #{authorityId},
+                #{createdBy}, #{createdDate}, #{lastModifiedBy}, #{lastModifiedDate})
+    </insert>
+    <select id="findByUsernameEqualsIgnoreCase" resultMap="resultDto" parameterType="java.lang.String">
+        select u.*, ui.citizen_identity_no as citizen_identity_no, ui.phone_no as phone_no, au.name as authority_name
+        from "user" u left join user_information ui on u.id = ui.user_id
+                      inner join authority au on u.authority_id = au.id where lower(u.username) = lower(#{username})
+    </select>
+    <select id="getAll" resultMap="resultDto">
+        select u.*, ui.citizen_identity_no as citizen_identity_no, ui.phone_no as phone_no, au.name as authority_name
+        from "user" u left join user_information ui on u.id = ui.user_id
+                      inner join authority au on u.authority_id = au.id
+    </select>
+
+    <resultMap id="resultDto" type="io.ketlv.ediplomadapp.services.dto.UserDto">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="email" property="email"/>
+        <result column="password" property="email"/>
+        <result column="init_password" property="initPassword"/>
+        <result column="init_password" property="initPassword"/>
+        <result column="authority_name" property="authorityName"/>
+        <result column="authority_id" property="authorityId"/>
+        <result column="citizen_identity_no" property="citizenIdentityNo"/>
+        <result column="full_name" property="fullName"/>
+        <result column="phone_no" property="phoneNo"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
+    </resultMap>
+
+</mapper>

@@ -40,7 +40,7 @@
             #{element.createdDate}, #{element.lastModifiedBy}, #{element.lastModifiedDate}
         </foreach>
     </insert>
-    <select id="findAll" resultMap = "resultAll">
+    <select id="findAll" resultMap = "resultAll" parameterType="io.ketlv.ediplomadapp.services.dto.DiplomaPaging">
         select dip.*, mj.name as major, inds.indigenous_name as indigenous, na.nationality_name as nationality, dt."name" as diploma_type,
                rg.ranking_name as ranking, rt.req_type_name as req_type, dv.name as donvi
         from diploma dip inner join major mj on mj.id=dip.major_id
@@ -50,8 +50,123 @@
                          inner join ranking_graduation rg on rg.id = dip.ranking_id
                          inner join request_type rt on rt.id = dip.req_type_id
                          inner join donvi dv on dv.symbol = dip.donvi_symbol
+        <if test="yearGraduation != null">
+            WHERE year_graduation = #{yearGraduation}
+        </if>
+        ORDER BY dip.created_date desc
+        <if test="pageSize != null">
+            LIMIT #{pageSize}
+        </if>
+        <if test="page != null">
+            OFFSET #{page}
+        </if>
 
     </select>
+
+    <update id="verifiedDiploma" parameterType="java.util.List">
+        <foreach collection="list" item="id"  separator=";" >
+            UPDATE  diploma set status='VERIFIED' WHERE id=#{id}
+        </foreach>;
+    </update>
+    <update id="partialUpdate" parameterType="io.ketlv.ediplomadapp.services.dto.UpdateDiplomaReq">
+        update diploma
+        <set>
+            <if test="majorId != null">
+                major_id = #{majorId},
+            </if>
+            <if test="studentId != null">
+                student_id = #{studentId},
+            </if>
+            <if test="fullName != null">
+                full_name = #{fullName},
+            </if>
+            <if test="dateOfBirth != null">
+                date_of_birth = #{dateOfBirth},
+            </if>
+            <if test="placeOfOrigin != null">
+                place_of_origin = #{placeOfOrigin},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="indigenousId != null">
+                indigenous_id = #{indigenousId},
+            </if>
+            <if test="nationalityId != null">
+                nationality_id = #{nationalityId},
+            </if>
+            <if test="rankingId != null">
+                ranking_id = #{rankingId},
+            </if>
+            <if test="yearGraduation != null">
+                year_graduation = #{yearGraduation},
+            </if>
+            <if test="modeOfStudy != null">
+                mode_of_study = #{modeOfStudy},
+            </if>
+            <if test="donviSymbol != null">
+                donvi_symbol = #{donviSymbol},
+            </if>
+            <if test="referenceNumber != null">
+                reference_number = #{referenceNumber},
+            </if>
+            <if test="signer != null">
+                signer = #{signer},
+            </if>
+            <if test="signer != null">
+                signer_title = #{signerTitle},
+            </if>
+            <if test="foreignLanguage != null">
+                foreign_language = #{foreignLanguage},
+            </if>
+            <if test="levelForeignLanguage != null">
+                level_foreign_language = #{levelForeignLanguage},
+            </if>
+            <if test="dateOfEnrollment != null">
+                date_of_enrollment = #{dateOfEnrollment},
+            </if>
+            <if test="dateOfGraduation != null">
+                date_of_graduation = #{dateOfGraduation},
+            </if>
+            <if test="dateOfGraduation != null">
+                training_course = #{trainingCourse},
+            </if>
+            <if test="dateOfDefend != null">
+                date_of_defend = #{dateOfDefend},
+            </if>
+            <if test="hoiDongThi != null">
+                hoi_dong_thi = #{hoiDongThi},
+            </if>
+            <if test="decisionNumber != null">
+                decision_number = #{decisionNumber},
+            </if>
+            <if test="decisionEstablishingCouncil != null">
+                decision_establishing_council = #{decisionEstablishingCouncil},
+            </if>
+            <if test="reqTypeId != null">
+                req_type_id = #{reqTypeId},
+            </if>
+            <if test="gpa != null">
+                gpa = #{gpa},
+            </if>
+            <if test="diplomaTypeSymbol != null">
+                diploma_type_symbol = #{diplomaTypeSymbol},
+            </if>
+            <if test="trainingPeriodSemester != null">
+                training_period_semester = #{trainingPeriodSemester},
+            </if>
+            <if test="totalCredits != null">
+                total_credits = #{totalCredits},
+            </if>
+            <if test="note != null">
+                note = #{note},
+            </if>
+            <if test="diplomaLink != null">
+                diploma_link = #{diplomaLink}
+            </if>
+        </set>
+            where id = #{id}
+    </update>
 
     <resultMap id="resultAll" type="io.ketlv.ediplomadapp.services.dto.DiplomaDto">
         <result column="id" property="id"/>
@@ -91,6 +206,10 @@
         <result column="appendix_lnk" property="appendixLnk"/>
         <result column="note" property="note"/>
         <result column="status" property="status"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
     </resultMap>
 
     <resultMap id="diplomaResultMap" type="io.ketlv.ediplomadapp.domain.Diploma">
@@ -133,5 +252,9 @@
         <result column="transaction_id" property="transactionId"/>
         <result column="note" property="note"/>
         <result column="status" property="status"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
     </resultMap>
 </mapper>

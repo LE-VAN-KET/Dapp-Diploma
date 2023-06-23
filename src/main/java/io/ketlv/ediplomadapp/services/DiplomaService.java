@@ -1,7 +1,8 @@
 package io.ketlv.ediplomadapp.services;
 
 import io.ketlv.ediplomadapp.domain.Diploma;
-import io.ketlv.ediplomadapp.services.dto.DiplomaDto;
+import io.ketlv.ediplomadapp.services.dto.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,28 +19,14 @@ public interface DiplomaService {
      */
     Diploma save(Diploma diploma);
 
-    /**
-     * Updates a diploma.
-     *
-     * @param diploma the entity to update.
-     * @return the persisted entity.
-     */
-    Diploma update(Diploma diploma);
-
-    /**
-     * Partially updates a diploma.
-     *
-     * @param diploma the entity to update partially.
-     * @return the persisted entity.
-     */
-    Optional<Diploma> partialUpdate(Diploma diploma);
+    void partialUpdate(UpdateDiplomaReq req, MultipartFile file);
 
     /**
      * Get all the diplomas.
      *
      * @return the list of entities.
      */
-    List<DiplomaDto> findAll();
+    DiplomasRes findAll(Long page, Long size, Long yearGraduation);
 
     /**
      * Get the "id" diploma.
@@ -63,5 +50,10 @@ public interface DiplomaService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    void verifiedDiplomas(VerifiedDiplomaReq req);
+    void updateStatus(DiplomaStatusReq req, String refNumber);
+    byte[] loadFileDiploma(String hash);
+    List<Long> getListYearGraduation();
 }
 

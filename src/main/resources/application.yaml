@@ -4,19 +4,47 @@ server:
     session:
       cookie:
         http-only: true
-  port: 8080
+  port: 8000
 
 spring:
   liquibase:
     change-log: classpath:db/master.xml
     drop-first: false
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/myapp
+    url: jdbc:postgresql://localhost:5432/qldipolma?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
     username: myapp
-    password:
+    password: password
     hikari:
       poolName: Hikari
       auto-commit: false
+
+  redis:
+    database: 0
+    address: redis://127.0.0.1:6379
+    connection-pool-size: 4
+    connection-minimum-idle-size: 2
+    token-prefix: capstone:token
+    token-time-to-live: 7200
+
+  # Config properties Mailer
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: vanhoang1512001@gmail.com
+    password: fikhfyfmqbklwruz
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+        debug: true
+
+  devtools:
+    livereload:
+      enabled: true
 
 mybatis:
   mapper-locations: "classpath:mapper/*.xml"
@@ -29,3 +57,17 @@ springdoc:
   api-docs:
     path: /api-docs
   swagger-ui: /swagger-ui-custom.html
+
+keystore:
+  password: team92pass
+
+# Minio
+minio:
+  bucket:
+    name: minio-diploma-file
+  access:
+    key: admin
+    secret: password@123
+  url: http://34.143.181.194:9000
+
+

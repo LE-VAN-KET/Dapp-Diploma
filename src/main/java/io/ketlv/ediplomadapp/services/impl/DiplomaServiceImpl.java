@@ -1,17 +1,29 @@
 package io.ketlv.ediplomadapp.services.impl;
 
+import io.ipfs.api.IPFS;
+import io.ipfs.api.MerkleNode;
+import io.ipfs.api.NamedStreamable;
+import io.ipfs.multihash.Multihash;
+import io.ketlv.ediplomadapp.config.IPFSConfig;
 import io.ketlv.ediplomadapp.constants.NetworkConfig;
 import io.ketlv.ediplomadapp.domain.Diploma;
+import io.ketlv.ediplomadapp.enumuration.DiplomaStatusEnum;
 import io.ketlv.ediplomadapp.mapper.DiplomaMapper;
+import io.ketlv.ediplomadapp.mapper.PhoiMapper;
 import io.ketlv.ediplomadapp.services.DiplomaService;
-import io.ketlv.ediplomadapp.services.dto.DiplomaDto;
+import io.ketlv.ediplomadapp.services.dto.*;
 import io.ketlv.ediplomadapp.services.fabric.ChainCode;
+import liquibase.pro.packaged.di;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,142 +32,8 @@ import java.util.Optional;
 public class DiplomaServiceImpl implements DiplomaService {
     private final Logger log = LoggerFactory.getLogger(DiplomaServiceImpl.class);
     private final DiplomaMapper diplomaMapper;
-
-//    @Override
-//    public Diploma save(Diploma diploma) {
-//        log.debug("Request to save Diploma : {}", diploma);
-//        return diplomaMapper.save(diploma);
-//    }
-
-//    @Override
-//    public Diploma update(Diploma diploma) {
-//        log.debug("Request to update Diploma : {}", diploma);
-//        return diplomaRepository.save(diploma);
-//    }
-
-//    @Override
-//    public Optional<Diploma> partialUpdate(Diploma diploma) {
-//        log.debug("Request to partially update Diploma : {}", diploma);
-//
-//        return diplomaRepository
-//                .findById(diploma.getId())
-//                .map(existingDiploma -> {
-//                    if (diploma.getGraduationCatalogId() != null) {
-//                        existingDiploma.setGraduationCatalogId(diploma.getGraduationCatalogId());
-//                    }
-//                    if (diploma.getMajorId() != null) {
-//                        existingDiploma.setMajorId(diploma.getMajorId());
-//                    }
-//                    if (diploma.getStudentId() != null) {
-//                        existingDiploma.setStudentId(diploma.getStudentId());
-//                    }
-//                    if (diploma.getFullName() != null) {
-//                        existingDiploma.setFullName(diploma.getFullName());
-//                    }
-//                    if (diploma.getDateOfBirth() != null) {
-//                        existingDiploma.setDateOfBirth(diploma.getDateOfBirth());
-//                    }
-//                    if (diploma.getPlaceOfOrigin() != null) {
-//                        existingDiploma.setPlaceOfOrigin(diploma.getPlaceOfOrigin());
-//                    }
-//                    if (diploma.getSex() != null) {
-//                        existingDiploma.setSex(diploma.getSex());
-//                    }
-//                    if (diploma.getIndigenousId() != null) {
-//                        existingDiploma.setIndigenousId(diploma.getIndigenousId());
-//                    }
-//                    if (diploma.getNationalityId() != null) {
-//                        existingDiploma.setNationalityId(diploma.getNationalityId());
-//                    }
-//                    if (diploma.getRankingId() != null) {
-//                        existingDiploma.setRankingId(diploma.getRankingId());
-//                    }
-//                    if (diploma.getYearGraduation() != null) {
-//                        existingDiploma.setYearGraduation(diploma.getYearGraduation());
-//                    }
-//                    if (diploma.getModeOfStudy() != null) {
-//                        existingDiploma.setModeOfStudy(diploma.getModeOfStudy());
-//                    }
-//                    if (diploma.getDonviSymbol() != null) {
-//                        existingDiploma.setDonviSymbol(diploma.getDonviSymbol());
-//                    }
-//                    if (diploma.getSerialNumber() != null) {
-//                        existingDiploma.setSerialNumber(diploma.getSerialNumber());
-//                    }
-//                    if (diploma.getReferenceNumber() != null) {
-//                        existingDiploma.setReferenceNumber(diploma.getReferenceNumber());
-//                    }
-//                    if (diploma.getSigner() != null) {
-//                        existingDiploma.setSigner(diploma.getSigner());
-//                    }
-//                    if (diploma.getSignerTitle() != null) {
-//                        existingDiploma.setSignerTitle(diploma.getSignerTitle());
-//                    }
-//                    if (diploma.getForeignLanguage() != null) {
-//                        existingDiploma.setForeignLanguage(diploma.getForeignLanguage());
-//                    }
-//                    if (diploma.getLevelForeignLanguage() != null) {
-//                        existingDiploma.setLevelForeignLanguage(diploma.getLevelForeignLanguage());
-//                    }
-//                    if (diploma.getDateOfEnrollment() != null) {
-//                        existingDiploma.setDateOfEnrollment(diploma.getDateOfEnrollment());
-//                    }
-//                    if (diploma.getDateOfGraduation() != null) {
-//                        existingDiploma.setDateOfGraduation(diploma.getDateOfGraduation());
-//                    }
-//                    if (diploma.getTrainingCourse() != null) {
-//                        existingDiploma.setTrainingCourse(diploma.getTrainingCourse());
-//                    }
-//                    if (diploma.getDateOfDefend() != null) {
-//                        existingDiploma.setDateOfDefend(diploma.getDateOfDefend());
-//                    }
-//                    if (diploma.getHoiDongThi() != null) {
-//                        existingDiploma.setHoiDongThi(diploma.getHoiDongThi());
-//                    }
-//                    if (diploma.getDecisionNumber() != null) {
-//                        existingDiploma.setDecisionNumber(diploma.getDecisionNumber());
-//                    }
-//                    if (diploma.getDecisionEstablishingCouncil() != null) {
-//                        existingDiploma.setDecisionEstablishingCouncil(diploma.getDecisionEstablishingCouncil());
-//                    }
-//                    if (diploma.getReqTypeId() != null) {
-//                        existingDiploma.setReqTypeId(diploma.getReqTypeId());
-//                    }
-//                    if (diploma.getGpa() != null) {
-//                        existingDiploma.setGpa(diploma.getGpa());
-//                    }
-//                    if (diploma.getDiplomaTypeSymbol() != null) {
-//                        existingDiploma.setDiplomaTypeSymbol(diploma.getDiplomaTypeSymbol());
-//                    }
-//                    if (diploma.getTrainingPeriodSemester() != null) {
-//                        existingDiploma.setTrainingPeriodSemester(diploma.getTrainingPeriodSemester());
-//                    }
-//                    if (diploma.getTotalCredits() != null) {
-//                        existingDiploma.setTotalCredits(diploma.getTotalCredits());
-//                    }
-//                    if (diploma.getDiplomaLink() != null) {
-//                        existingDiploma.setDiplomaLink(diploma.getDiplomaLink());
-//                    }
-//                    if (diploma.getAppendixLnk() != null) {
-//                        existingDiploma.setAppendixLnk(diploma.getAppendixLnk());
-//                    }
-//                    if (diploma.getHash() != null) {
-//                        existingDiploma.setHash(diploma.getHash());
-//                    }
-//                    if (diploma.getTransactionId() != null) {
-//                        existingDiploma.setTransactionId(diploma.getTransactionId());
-//                    }
-//                    if (diploma.getNote() != null) {
-//                        existingDiploma.setNote(diploma.getNote());
-//                    }
-//                    if (diploma.getStatus() != null) {
-//                        existingDiploma.setStatus(diploma.getStatus());
-//                    }
-//
-//                    return existingDiploma;
-//                })
-//                .map(diplomaRepository::save);
-//    }
+    private final IPFSConfig ipfsConfig;
+    private final PhoiMapper phoiMapper;
 
     @Override
     public Diploma save(Diploma diploma) {
@@ -173,20 +51,47 @@ public class DiplomaServiceImpl implements DiplomaService {
     }
 
     @Override
-    public Diploma update(Diploma diploma) {
-        return null;
-    }
+    public void partialUpdate(UpdateDiplomaReq req, MultipartFile file) {
+        log.debug("Request to partially update Diploma : {}", req);
+        boolean isExist = diplomaMapper.isExistById(req.getId());
+        if (isExist) {
+            try {
+                if (file != null) {
+                    InputStream inputStream = new ByteArrayInputStream(file.getBytes());
+                    IPFS ipfs = ipfsConfig.ipfs;
 
-    @Override
-    public Optional<Diploma> partialUpdate(Diploma diploma) {
-        return Optional.empty();
+                    NamedStreamable.InputStreamWrapper is = new NamedStreamable.InputStreamWrapper(inputStream);
+                    MerkleNode response = ipfs.add(is).get(0);
+                    req.setDiplomaLink(response.hash.toBase58());
+                }
+                diplomaMapper.partialUpdate(req);
+            } catch (IOException ex) {
+                log.error("[ERROR] save file diploma failed.", ex);
+                throw new RuntimeException(ex.getMessage());
+            }
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<DiplomaDto> findAll() {
-        log.debug("Request to get all Diplomas");
-        return diplomaMapper.findAll();
+    public DiplomasRes findAll(Long page, Long size, Long yearGraduation) {
+        if (page != null) {
+            if (page > 0) {
+                page = size * (page - 1);
+            } else {
+                page = 0L;
+            }
+        }
+        long count = 0;
+        if (yearGraduation != null) {
+            count = diplomaMapper.count(yearGraduation);
+        } else {
+            count = diplomaMapper.count(0L);
+        }
+        return DiplomasRes.builder()
+                .data(diplomaMapper.findAll(new DiplomaPaging(page, size, yearGraduation)))
+                .total(count)
+                .build();
     }
 
     @Override
@@ -205,5 +110,44 @@ public class DiplomaServiceImpl implements DiplomaService {
     @Override
     public Diploma findOneBySerialNumber(String serialNumber) {
         return diplomaMapper.findOneBySerialNumber(serialNumber);
+    }
+
+    @Override
+    public void verifiedDiplomas(VerifiedDiplomaReq req) {
+        diplomaMapper.verifiedDiploma(req.getDiplomaIds());
+    }
+
+    @Override
+    public void updateStatus(DiplomaStatusReq req, String refNumber) {
+        Diploma dipExist = diplomaMapper.findOneByRefNumber(refNumber);
+        if (dipExist != null) {
+            diplomaMapper.updateStatus(req.getStatus().toString(), refNumber);
+            if (dipExist.getSerialNumber() != null && !"".equals(dipExist.getSerialNumber())) {
+                if (req.getStatus().equals(DiplomaStatusEnum.DAHONG) &&
+                        !dipExist.getStatus().equals(DiplomaStatusEnum.DAHONG)) {
+                    phoiMapper.increaseCountPhoiBroken(dipExist.getSerialNumber());
+                } else if (!req.getStatus().equals(DiplomaStatusEnum.DAHONG) &&
+                        dipExist.getStatus().equals(DiplomaStatusEnum.DAHONG)) {
+                    phoiMapper.decreaseCountPhoiBroken(dipExist.getSerialNumber());
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public byte[] loadFileDiploma(String hash) {
+        try {
+            IPFS ipfs = ipfsConfig.ipfs;
+            Multihash filePointer = Multihash.fromBase58(hash);
+            return ipfs.cat(filePointer);
+        } catch (IOException ex) {
+            throw new RuntimeException("Error white communicating with the IPFS node", ex);
+        }
+    }
+
+    @Override
+    public List<Long> getListYearGraduation() {
+        return diplomaMapper.selectListYearGraduation();
     }
 }

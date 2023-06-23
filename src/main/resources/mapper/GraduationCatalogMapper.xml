@@ -11,6 +11,45 @@
             select LASTVAL() as id
         </selectKey>
     </insert>
+    <update id="updateCatalog" parameterType="io.ketlv.ediplomadapp.domain.GraduationCatalog">
+        update GRADUATION_CATALOG
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="decisionGraduation != null">
+                decision_graduation = #{decisionGraduation},
+            </if>
+            <if test="yearGraduation != null">
+                year_graduation = #{yearGraduation},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="note != null">
+                note = #{note},
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date = #{lastModifiedDate},
+            </if>
+        </set>
+            where id = #{id}
+    </update>
+    <delete id="delete" parameterType="java.lang.Long">
+        BEGIN;
+            DELETE FROM diploma where graduation_catalog_id = #{id};
+            DELETE FROM GRADUATION_CATALOG where id = #{id};
+        COMMIT;
+    </delete>
+    <select id="findPaging" resultMap="catalogResultMap" parameterType="io.ketlv.ediplomadapp.services.dto.CatalogPaging" >
+        SELECT * FROM GRADUATION_CATALOG ORDER BY created_date desc
+        <if test="pageSize != null">
+            LIMIT #{pageSize}
+        </if>
+        <if test="page != null">
+            OFFSET #{page}
+        </if>
+    </select>
 
     <resultMap id="catalogResultMap" type="io.ketlv.ediplomadapp.domain.GraduationCatalog">
         <result column="id" property="id"/>
@@ -19,5 +58,9 @@
         <result column="year_graduation" property="yearGraduation"/>
         <result column="content" property="content"/>
         <result column="note" property="note"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
     </resultMap>
 </mapper>

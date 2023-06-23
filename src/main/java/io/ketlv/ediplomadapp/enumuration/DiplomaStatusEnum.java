@@ -1,8 +1,8 @@
 package io.ketlv.ediplomadapp.enumuration;
 
 public enum DiplomaStatusEnum {
-    PENDING("PEN"), NOTSERIAL("USE"),
-    VERIFIED("VER"), REJECTED("REJ");
+    PENDING("PENDING"), NOTSERIAL("NOTSERIAL"),
+    VERIFIED("VERIFIED"), REJECTED("VERIFIED"), DAHONG("DAHONG");
     private String value;
 
     DiplomaStatusEnum(String value) {

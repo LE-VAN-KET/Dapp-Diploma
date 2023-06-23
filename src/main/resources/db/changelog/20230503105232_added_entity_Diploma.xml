@@ -74,7 +74,7 @@
             <column name="date_of_graduation" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="training_course" type="bigint">
+            <column name="training_course" type="varchar(50)">
                 <constraints nullable="true" />
             </column>
             <column name="date_of_defend" type="date">

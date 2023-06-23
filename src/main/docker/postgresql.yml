@@ -1,15 +1,77 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
 version: '3.8'
+
+networks:
+  net-capstone:
+
+volumes:
+  data11: {}
+  data12: {}
+  data21: {}
+  data22: {}
+
+x-minio-common: &minio-common
+  image: minio/minio:latest
+  command: server --console-address ":9001" http://minio{1...2}/data{1...2}
+  expose:
+    - "9000"
+    - "9001"
+  environment:
+    MINIO_ROOT_USER: admin
+    MINIO_ROOT_PASSWORD: password@123
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+    interval: 30s
+    timeout: 20s
+    retries: 3
+
 services:
+  minio1:
+    <<: *minio-common
+    hostname: minio1
+    volumes:
+      - data11:/data1
+      - data12:/data2
+    ports:
+      - 9000:9000
+      - 9001:9001
+    networks:
+      - net-capstone
+
+  minio2:
+    <<: *minio-common
+    hostname: minio2
+    volumes:
+      - data21:/data1
+      - data22:/data2
+    networks:
+      - net-capstone
+
   myapp-postgresql:
-    image: postgres:14.5
+    image: postgres:latest
     # volumes:
     #   - ~/volumes/jhipster/myapp/postgresql/:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=myapp
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=qldipolma
       - POSTGRES_HOST_AUTH_METHOD=trust
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 127.0.0.1:5432:5432
+      - 5432:5432
+    networks:
+      - net-capstone
+
+  redis_micro:
+    image: redis:latest
+    hostname: redis
+    container_name: redis_auth
+    restart: always
+    command: redis-server --appendonly yes --replica-read-only no
+    volumes:
+      - ./volumes/redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - net-capstone

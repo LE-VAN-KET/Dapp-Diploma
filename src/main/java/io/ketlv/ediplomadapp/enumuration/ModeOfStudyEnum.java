@@ -1,7 +1,7 @@
 package io.ketlv.ediplomadapp.enumuration;
 
 public enum ModeOfStudyEnum {
-    CHINH_QUY("CHINH QUY"), TAI_CHUC("TAI CHUC");
+    CHINH_QUY("Chính quy"), TAI_CHUC("Tại chức");
     private String value;
 
     ModeOfStudyEnum(String value) {

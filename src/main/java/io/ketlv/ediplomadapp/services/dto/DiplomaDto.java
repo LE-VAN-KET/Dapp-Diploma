@@ -37,7 +37,7 @@ public class DiplomaDto extends AbstractAuditingEntity<Long> {
     private String levelForeignLanguage;
     private Date dateOfEnrollment;
     private Date dateOfGraduation;
-    private Integer trainingCourse;
+    private String trainingCourse;
     private Date dateOfDefend;
     private String hoiDongThi;
     private String decisionNumber;
@@ -141,7 +141,7 @@ public class DiplomaDto extends AbstractAuditingEntity<Long> {
         return dateOfGraduation;
     }
 
-    public Integer getTrainingCourse() {
+    public String getTrainingCourse() {
         return trainingCourse;
     }
 

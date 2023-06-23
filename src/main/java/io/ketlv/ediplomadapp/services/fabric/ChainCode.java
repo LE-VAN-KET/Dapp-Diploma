@@ -3,8 +3,11 @@ package io.ketlv.ediplomadapp.services.fabric;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 
 import io.ketlv.ediplomadapp.domain.Diploma;
+import io.ketlv.ediplomadapp.enumuration.ModeOfStudyEnum;
+import io.ketlv.ediplomadapp.enumuration.SexEnum;
 import org.hyperledger.fabric.gateway.Contract;
 import org.hyperledger.fabric.gateway.Gateway;
 import org.hyperledger.fabric.gateway.Network;
@@ -35,6 +38,16 @@ public class ChainCode {
         }
     }
 
+    public static void main(String[] args) throws Exception {
+        // enrolls the admin and registers the user
+        try {
+            EnrollAdmin.execute("issuer.com", "1054", 1);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
+    }
+
     public static void issueDiploma(Diploma diploma, String configPathOrg) throws Exception {
         // enrolls the admin and registers the user
         try {
@@ -51,7 +64,7 @@ public class ChainCode {
             Contract contract = network.getContract("e-diploma");
             System.out.println("connect chaincode success");
 
-            contract.submitTransaction("issueDiploma", diploma.getGraduationCatalogId().toString(), diploma.getMajorId(),
+            byte[] result = contract.submitTransaction("issueDiploma", diploma.getGraduationCatalogId().toString(), diploma.getMajorId(),
                     diploma.getStudentId(), diploma.getFullName(), diploma.getDateOfBirth().toString(), diploma.getPlaceOfOrigin(),
                     diploma.getSex().getValue().toString(), diploma.getIndigenousId().toString(), diploma.getNationalityId().toString(), diploma.getRankingId().toString(),
                     diploma.getYearGraduation().toString(), diploma.getModeOfStudy().getValue(), diploma.getDonviSymbol(),
@@ -60,6 +73,8 @@ public class ChainCode {
                     diploma.getTrainingCourse().toString(), diploma.getDateOfDefend().toString(), diploma.getHoiDongThi(), diploma.getDecisionNumber(),
                     diploma.getDecisionEstablishingCouncil(), diploma.getReqTypeId().toString(), diploma.getGpa().toString(), diploma.getDiplomaTypeSymbol(),
                     diploma.getTrainingPeriodSemester().toString(), diploma.getTotalCredits().toString(), diploma.getNote(), diploma.getStatus().toString());
+
+            System.out.println(result);
         }
         catch(Exception e){
             System.err.println(e);

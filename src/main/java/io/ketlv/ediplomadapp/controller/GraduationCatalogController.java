@@ -2,6 +2,7 @@ package io.ketlv.ediplomadapp.controller;
 
 import io.ketlv.ediplomadapp.domain.GraduationCatalog;
 import io.ketlv.ediplomadapp.services.GraduationCatalogService;
+import io.ketlv.ediplomadapp.services.dto.CatalogPaging;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,12 @@ public class GraduationCatalogController {
     private final GraduationCatalogService graduationCatalogService;
 
     @GetMapping()
-    public ResponseEntity<?> getAll() {
+    public ResponseEntity<?> getAll(@RequestParam(required = false) Long page, @RequestParam(required = false) Long pageSize) {
         try {
-            return new ResponseEntity<>(graduationCatalogService.getAll(), HttpStatus.OK);
+            CatalogPaging catalogPaging = new CatalogPaging(page, pageSize);
+            return new ResponseEntity<>(graduationCatalogService.getAll(catalogPaging), HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -28,7 +31,7 @@ public class GraduationCatalogController {
     public ResponseEntity<?> getOne(@PathVariable Long id) {
         try {
             //TODO Implement Your Logic To Get Data From Service Layer Or Directly From Repository Layer
-            return new ResponseEntity<>("GetOne Result", HttpStatus.OK);
+            return new ResponseEntity<>(graduationCatalogService.getOneByID(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -44,12 +47,14 @@ public class GraduationCatalogController {
         }
     }
 
-    @PutMapping()
-    public ResponseEntity<?> update(@RequestBody GraduationCatalog dto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@RequestBody GraduationCatalog dto, @PathVariable("id") Long id) {
         try {
-            //TODO Implement Your Logic To Update Data And Return Result Through ResponseEntity
-            return new ResponseEntity<>("Update Result", HttpStatus.OK);
+            dto.setId(id);
+            graduationCatalogService.updateCatalog(dto);
+            return new ResponseEntity<>("Update success", HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -57,8 +62,11 @@ public class GraduationCatalogController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> destroy(@PathVariable Long id) {
         try {
-            return new ResponseEntity<>(graduationCatalogService.getOneByID(id), HttpStatus.OK);
+            graduationCatalogService.delete(id);
+            return new ResponseEntity<>("Delete success", HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
+
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

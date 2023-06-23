@@ -13,16 +13,16 @@ import java.sql.Date;
 @Setter
 public class Phoi extends AbstractAuditingEntity<Long> {
     private Long id;
+    private String title;
     private String donviSymbol;
     private String diplomaTypeSymbol;
-    private int amountOldStock;
+    private int amountOldStock = 0;
     private int amountIssuedNewPrint;
-    private int amountBroken;
-    private int amountIssuedStudent;
-    private int amountUnused;
+    private int amountBroken = 0;
+    private int amountIssuedStudent = 0;
+    private int amountUnused = 0;
     private String serialNumberBegin;
     private String serialNumberEnd;
-    private BacHocEnum bachoc;
     private LoaiPhoiEnum loaiPhoi;
     private Date ngayMua;
     private Date ngayNhapKho;
@@ -69,9 +69,6 @@ public class Phoi extends AbstractAuditingEntity<Long> {
         return serialNumberEnd;
     }
 
-    public BacHocEnum getBachoc() {
-        return bachoc;
-    }
 
     public LoaiPhoiEnum getLoaiPhoi() {
         return loaiPhoi;
@@ -87,5 +84,9 @@ public class Phoi extends AbstractAuditingEntity<Long> {
 
     public String getNote() {
         return note;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

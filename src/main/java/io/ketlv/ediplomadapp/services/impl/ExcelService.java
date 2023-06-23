@@ -19,8 +19,10 @@ public class ExcelService {
     private final DiplomaMapper diplomaMapper;
     private final ExcelUtil  excelUtil;
 
-    public void uploadListDiplomas(MultipartFile file, String schoolSymbol, String graduationCatalogId) throws IOException {
-        List<Diploma> diplomaList = excelUtil.excelToDiplomas(file.getInputStream(), "Văn Bằng", schoolSymbol, graduationCatalogId);
+    public void uploadListDiplomas(MultipartFile file, String schoolSymbol, String graduationCatalogId,
+                                   String yearGraduation, String signer, String signerTitle) throws IOException {
+        List<Diploma> diplomaList = excelUtil.excelToDiplomas(file.getInputStream(), "Văn Bằng", schoolSymbol, graduationCatalogId,
+                yearGraduation, signer, signerTitle);
         diplomaMapper.insertListDiploma(diplomaList);
     }
 }

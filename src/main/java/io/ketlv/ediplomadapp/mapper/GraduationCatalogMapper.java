@@ -1,10 +1,8 @@
 package io.ketlv.ediplomadapp.mapper;
 
 import io.ketlv.ediplomadapp.domain.GraduationCatalog;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
+import io.ketlv.ediplomadapp.services.dto.CatalogPaging;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -14,11 +12,20 @@ public interface GraduationCatalogMapper {
     @ResultMap("catalogResultMap")
     List<GraduationCatalog> findAll();
 
+    List<GraduationCatalog> findPaging(CatalogPaging catalogPaging);
+
     Long createGraduationCatalog(GraduationCatalog catalog);
 
     @Select("SELECT * FROM GRADUATION_CATALOG WHERE id = #{id}")
+    @ResultMap("catalogResultMap")
     GraduationCatalog findById(@Param("id") Long id);
 
     @Select("SELECT 1 FROM GRADUATION_CATALOG WHERE id = #{id}")
     boolean isExistCatalogById(@Param("id") Long id);
+
+    void updateCatalog(GraduationCatalog catalog);
+    @Select("SELECT count(1) FROM GRADUATION_CATALOG")
+    long count();
+
+    void delete(@Param("id") Long id);
 }
