@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -41,7 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             new UserNotFoundException("Username is not found!");
         }
 
-        Collection<? extends GrantedAuthority> authorities = getAuthorities(List.of(user.getAuthorityName()));
+        Collection<? extends GrantedAuthority> authorities = getAuthorities(new ArrayList<>(Collections.singleton(user.getAuthorityName())));
 
         if (user.getPassword() == null && user.getInitPassword() != null) {
             user.setPassword(user.getInitPassword());

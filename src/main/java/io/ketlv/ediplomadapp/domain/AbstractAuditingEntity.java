@@ -2,7 +2,6 @@ package io.ketlv.ediplomadapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.annotation.processing.Generated;
 import java.io.Serializable;
 import java.time.Instant;
 

@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public LoginResponse signin(LoginRequest request) {
         try {
-            var authToken = new UsernamePasswordAuthenticationToken(
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     request.getUsername(),
                     request.getPassword());
             Authentication authentication = authenticationManager.authenticate(authToken);
