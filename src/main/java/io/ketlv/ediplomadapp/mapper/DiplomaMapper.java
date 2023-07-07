@@ -1,9 +1,7 @@
 package io.ketlv.ediplomadapp.mapper;
 
 import io.ketlv.ediplomadapp.domain.Diploma;
-import io.ketlv.ediplomadapp.services.dto.DiplomaDto;
-import io.ketlv.ediplomadapp.services.dto.DiplomaPaging;
-import io.ketlv.ediplomadapp.services.dto.UpdateDiplomaReq;
+import io.ketlv.ediplomadapp.services.dto.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -59,4 +57,12 @@ public interface DiplomaMapper {
     @Select("select * from diploma where serial_number >= #{serialNumberBegin} and serial_number <= #{serialNumberEnd}")
     @ResultMap("diplomaResultMap")
     List<Diploma> selectAllByRangeSerialNumber(@Param("serialNumberBegin") String serialNumberBegin, @Param("serialNumberEnd") String serialNumberEnd);
+
+    @Update("update diploma set transaction_id = #{transactionId} where serial_number = #{serialNumber}")
+    void updateTransaction(@Param("serialNumber") String serialNumber, @Param("transactionId") String transactionId);
+
+    List<DiplomaResSearch> search(DiplomaSearchDto diplomaSearchDto);
+
+    @Select("select serial_number from diploma where id = #{id}")
+    String getSerialNumberById(@Param("id") Long id);
 }

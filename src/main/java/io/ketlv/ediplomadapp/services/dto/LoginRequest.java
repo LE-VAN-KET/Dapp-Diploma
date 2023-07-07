@@ -23,6 +23,6 @@ public class LoginRequest {
 
     @NotNull
     @NotEmpty(message = "Password is required")
-    @ValidPassword
+//    @ValidPassword
     private String password;
 }

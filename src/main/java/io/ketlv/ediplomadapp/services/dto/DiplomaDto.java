@@ -51,6 +51,11 @@ public class DiplomaDto extends AbstractAuditingEntity<Long> {
     private String appendixLnk;
     private String note;
     private DiplomaStatusEnum status;
+    private String transactionId;
+
+    public String getTransactionId() {
+        return transactionId;
+    }
 
     @Override
     public Long getId() {

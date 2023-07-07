@@ -62,6 +62,29 @@
         </if>
 
     </select>
+    <select id="search" resultMap = "resultSearch" parameterType="io.ketlv.ediplomadapp.services.dto.DiplomaResSearch">
+        select dip.*, mj.name as major, inds.indigenous_name as indigenous, na.nationality_name as nationality, dt."name" as diploma_type,
+               rg.ranking_name as ranking, rt.req_type_name as req_type, dv.name as donvi
+        from diploma dip inner join major mj on mj.id=dip.major_id
+                         inner join indigenous inds on inds.indigenous_id = dip.indigenous_id
+                         inner join nationality na on na.nationality_id = dip.nationality_id
+                         inner join diploma_type dt on dt.symbol = dip.diploma_type_symbol
+                         inner join ranking_graduation rg on rg.id = dip.ranking_id
+                         inner join request_type rt on rt.id = dip.req_type_id
+                         inner join donvi dv on dv.symbol = dip.donvi_symbol
+        where serial_number is not null
+        <if test="serialNumber != null and serialNumber != ''">
+            AND serial_number = #{serialNumber}
+        </if>
+        <if test="dateOfBirth != null and dateOfBirth != ''">
+            AND date_of_birth = #{dateOfBirth}::date
+        </if>
+        <if test="fullName != null and fullName != ''">
+            <bind name="pattern" value="'%' + fullName + '%'" />
+            AND full_name LIKE #{pattern}
+        </if>
+        ORDER BY dip.created_date desc
+    </select>
 
     <update id="verifiedDiploma" parameterType="java.util.List">
         <foreach collection="list" item="id"  separator=";" >
@@ -204,6 +227,7 @@
         <result column="total_credits" property="totalCredits"/>
         <result column="diploma_link" property="diplomaLink"/>
         <result column="appendix_lnk" property="appendixLnk"/>
+        <result column="transaction_id" property="transactionId"/>
         <result column="note" property="note"/>
         <result column="status" property="status"/>
         <result column="created_by" property="createdBy"/>
@@ -256,5 +280,57 @@
         <result column="created_date" property="createdDate"/>
         <result column="last_modified_by" property="lastModifiedBy"/>
         <result column="last_modified_date" property="lastModifiedDate"/>
+    </resultMap>
+
+    <resultMap id="resultSearch" type="io.ketlv.ediplomadapp.services.dto.DiplomaResSearch">
+        <result column="id" property="id"/>
+        <result column="graduation_catalog_id" property="graduationCatalogId"/>
+        <result column="major" property="major"/>
+        <result column="student_id" property="studentId"/>
+        <result column="full_name" property="fullName"/>
+        <result column="date_of_birth" property="dateOfBirth"/>
+        <result column="place_of_origin" property="placeOfOrigin"/>
+        <result column="sex" property="sex"/>
+        <result column="indigenous" property="indigenous"/>
+        <result column="nationality" property="nationality"/>
+        <result column="ranking" property="ranking"/>
+        <result column="year_graduation" property="yearGraduation"/>
+        <result column="mode_of_study" property="modeOfStudy"/>
+        <result column="donvi" property="donvi"/>
+        <result column="serial_number" property="serialNumber"/>
+        <result column="reference_number" property="referenceNumber"/>
+        <result column="signer" property="signer"/>
+        <result column="signer_title" property="signerTitle"/>
+        <result column="foreign_language" property="foreignLanguage"/>
+        <result column="level_foreign_language" property="levelForeignLanguage"/>
+        <result column="date_of_enrollment" property="dateOfEnrollment"/>
+        <result column="date_of_graduation" property="dateOfGraduation"/>
+        <result column="training_course" property="trainingCourse"/>
+        <result column="date_of_defend" property="dateOfDefend"/>
+        <result column="hoi_dong_thi" property="hoiDongThi"/>
+        <result column="decision_number" property="decisionNumber"/>
+        <result column="hoi_dong_thi" property="hoiDongThi"/>
+        <result column="decision_establishing_council" property="decisionEstablishingCouncil"/>
+        <result column="req_type" property="reqType"/>
+        <result column="gpa" property="gpa"/>
+        <result column="diploma_type" property="diplomaType"/>
+        <result column="training_period_semester" property="trainingPeriodSemester"/>
+        <result column="total_credits" property="totalCredits"/>
+        <result column="diploma_link" property="diplomaLink"/>
+        <result column="appendix_lnk" property="appendixLnk"/>
+        <result column="transaction_id" property="transactionId"/>
+        <result column="note" property="note"/>
+        <result column="status" property="status"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
+        <result column="indigenous_id" property="indigenousId"/>
+        <result column="nationality_id" property="nationalityId"/>
+        <result column="ranking_id" property="rankingId"/>
+        <result column="donvi_symbol" property="donviSymbol"/>
+        <result column="diploma_type_symbol" property="diplomaTypeSymbol"/>
+        <result column="req_type_id" property="reqTypeId"/>
+        <result column="major_id" property="majorId"/>
     </resultMap>
 </mapper>

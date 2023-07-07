@@ -2,6 +2,7 @@ package io.ketlv.ediplomadapp.controller;
 
 import io.ketlv.ediplomadapp.domain.Diploma;
 import io.ketlv.ediplomadapp.services.DiplomaService;
+import io.ketlv.ediplomadapp.services.dto.DiplomaSearchDto;
 import io.ketlv.ediplomadapp.services.dto.DiplomaStatusReq;
 import io.ketlv.ediplomadapp.services.dto.UpdateDiplomaReq;
 import io.ketlv.ediplomadapp.services.dto.VerifiedDiplomaReq;
@@ -108,6 +109,11 @@ public class DiplomaController {
     @GetMapping("/years")
     public ResponseEntity<?> getListYearGraduation() {
         return new ResponseEntity<>(diplomaService.getListYearGraduation(), HttpStatus.OK);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<?> search(@RequestBody DiplomaSearchDto diplomaSearchDto) {
+         return new ResponseEntity<>(diplomaService.search(diplomaSearchDto), HttpStatus.OK);
     }
 
 }

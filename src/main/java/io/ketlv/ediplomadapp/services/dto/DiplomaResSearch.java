@@ -1,6 +1,7 @@
-package io.ketlv.ediplomadapp.domain;
+package io.ketlv.ediplomadapp.services.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.ketlv.ediplomadapp.domain.AbstractAuditingEntity;
 import io.ketlv.ediplomadapp.enumuration.DiplomaStatusEnum;
 import io.ketlv.ediplomadapp.enumuration.ModeOfStudyEnum;
 import io.ketlv.ediplomadapp.enumuration.SexEnum;
@@ -15,22 +16,22 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
-public class Diploma extends AbstractAuditingEntity<Long> {
+public class DiplomaResSearch extends AbstractAuditingEntity<Long> {
     private Long id;
     private Long graduationCatalogId;
-    private String majorId;
+    private String major;
     private String studentId;
     private String fullName;
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date dateOfBirth;
     private String placeOfOrigin;
     private SexEnum sex;
-    private Long indigenousId;
-    private Long nationalityId;
-    private Long rankingId;
+    private String indigenous;
+    private String nationality;
+    private String ranking;
     private Integer yearGraduation;
     private ModeOfStudyEnum modeOfStudy;
-    private String donviSymbol;
+    private String donvi;
     private String serialNumber;
     private String referenceNumber;
     private String signer;
@@ -47,17 +48,24 @@ public class Diploma extends AbstractAuditingEntity<Long> {
     private String hoiDongThi;
     private String decisionNumber;
     private String decisionEstablishingCouncil;
-    private Long reqTypeId;
+    private String reqType;
     private Double gpa;
-    private String diplomaTypeSymbol;
+    private String diplomaType;
     private Double trainingPeriodSemester;
     private Integer totalCredits;
     private String diplomaLink;
     private String appendixLnk;
-    private String hash;
-    private String transactionId;
     private String note;
     private DiplomaStatusEnum status;
+    private String transactionId;
+    private String majorId;
+    private Boolean statusValidate;
+    private Long indigenousId;
+    private Long nationalityId;
+    private Long rankingId;
+    private String donviSymbol;
+    private Long reqTypeId;
+    private String diplomaTypeSymbol;
 
     @Override
     public Long getId() {
@@ -68,8 +76,8 @@ public class Diploma extends AbstractAuditingEntity<Long> {
         return graduationCatalogId;
     }
 
-    public String getMajorId() {
-        return majorId;
+    public String getMajor() {
+        return major;
     }
 
     public String getStudentId() {
@@ -92,16 +100,16 @@ public class Diploma extends AbstractAuditingEntity<Long> {
         return sex;
     }
 
-    public Long getIndigenousId() {
-        return indigenousId;
+    public String getIndigenous() {
+        return indigenous;
     }
 
-    public Long getNationalityId() {
-        return nationalityId;
+    public String getNationality() {
+        return nationality;
     }
 
-    public Long getRankingId() {
-        return rankingId;
+    public String getRanking() {
+        return ranking;
     }
 
     public Integer getYearGraduation() {
@@ -112,8 +120,8 @@ public class Diploma extends AbstractAuditingEntity<Long> {
         return modeOfStudy;
     }
 
-    public String getDonviSymbol() {
-        return donviSymbol;
+    public String getDonvi() {
+        return donvi;
     }
 
     public String getSerialNumber() {
@@ -168,16 +176,16 @@ public class Diploma extends AbstractAuditingEntity<Long> {
         return decisionEstablishingCouncil;
     }
 
-    public Long getReqTypeId() {
-        return reqTypeId;
+    public String getReqType() {
+        return reqType;
     }
 
     public Double getGpa() {
         return gpa;
     }
 
-    public String getDiplomaTypeSymbol() {
-        return diplomaTypeSymbol;
+    public String getDiplomaType() {
+        return diplomaType;
     }
 
     public Double getTrainingPeriodSemester() {
@@ -196,20 +204,48 @@ public class Diploma extends AbstractAuditingEntity<Long> {
         return appendixLnk;
     }
 
-    public String getHash() {
-        return hash;
-    }
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
     public String getNote() {
         return note;
     }
 
     public DiplomaStatusEnum getStatus() {
         return status;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public String getMajorId() {
+        return majorId;
+    }
+
+    public Boolean getStatusValidate() {
+        return statusValidate;
+    }
+
+    public Long getIndigenousId() {
+        return indigenousId;
+    }
+
+    public Long getNationalityId() {
+        return nationalityId;
+    }
+
+    public Long getRankingId() {
+        return rankingId;
+    }
+
+    public String getDonviSymbol() {
+        return donviSymbol;
+    }
+
+    public Long getReqTypeId() {
+        return reqTypeId;
+    }
+
+    public String getDiplomaTypeSymbol() {
+        return diplomaTypeSymbol;
     }
 
     @Override

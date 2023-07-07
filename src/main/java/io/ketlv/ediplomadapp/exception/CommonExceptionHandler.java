@@ -114,6 +114,7 @@ public class CommonExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public CommonErrorResponse handleAll(Exception ex) {
+        ex.printStackTrace();
         addErrorLog(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         String errMsg = "Unexpected internal server error occurs";
         return new CommonErrorResponse(

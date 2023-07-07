@@ -55,5 +55,6 @@ public interface DiplomaService {
     void updateStatus(DiplomaStatusReq req, String refNumber) throws Exception;
     byte[] loadFileDiploma(String hash);
     List<Long> getListYearGraduation();
+    List<DiplomaResSearch> search(DiplomaSearchDto diplomaSearchDto);
 }
 

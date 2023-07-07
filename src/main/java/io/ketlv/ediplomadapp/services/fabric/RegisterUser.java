@@ -26,7 +26,7 @@ public class RegisterUser {
 		props.put("pemFile",
 			"src/main/resources/ca."+ org + "-cert.pem");
 		props.put("allowAllHostNames", "true");
-		HFCAClient caClient = HFCAClient.createNewInstance("https://localhost:" + port, props);
+		HFCAClient caClient = HFCAClient.createNewInstance("https://34.143.181.194:" + port, props);
 		CryptoSuite cryptoSuite = CryptoSuiteFactory.getDefault().getCryptoSuite();
 		caClient.setCryptoSuite(cryptoSuite);
 
@@ -35,7 +35,7 @@ public class RegisterUser {
 
 		// Check to see if we've already enrolled the user.
 		if (wallet.get(username) != null) {
-			System.out.println("An identity for the user \"appUser\" already exists in the wallet");
+			System.out.println("An identity for the user" + username + " already exists in the wallet");
 			return;
 		}
 

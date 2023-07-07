@@ -10,6 +10,7 @@ import io.ketlv.ediplomadapp.domain.Diploma;
 import io.ketlv.ediplomadapp.enumuration.DiplomaStatusEnum;
 import io.ketlv.ediplomadapp.mapper.DiplomaMapper;
 import io.ketlv.ediplomadapp.mapper.PhoiMapper;
+import io.ketlv.ediplomadapp.security.model.CustomUserPrincipal;
 import io.ketlv.ediplomadapp.services.DiplomaService;
 import io.ketlv.ediplomadapp.services.dto.*;
 import io.ketlv.ediplomadapp.services.fabric.ChainCode;
@@ -17,6 +18,7 @@ import liquibase.pro.packaged.di;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,18 +36,19 @@ public class DiplomaServiceImpl implements DiplomaService {
     private final DiplomaMapper diplomaMapper;
     private final IPFSConfig ipfsConfig;
     private final PhoiMapper phoiMapper;
+    private final ChainCode chainCode;
 
     @Override
     public Diploma save(Diploma diploma) {
         diplomaMapper.insertDiploma(diploma);
         Diploma dip = findOneBySerialNumber(diploma.getSerialNumber());
-        if (dip != null) {
-            try {
-                ChainCode.issueDiploma(dip, NetworkConfig.networkConfigPathOrgIssuer);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
+//        if (dip != null) {
+//            try {
+//                ChainCode.issueDiploma(dip, NetworkConfig.networkConfigPathOrgIssuer);
+//            } catch (Exception e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
 
         return dip;
     }
@@ -63,6 +66,10 @@ public class DiplomaServiceImpl implements DiplomaService {
                     NamedStreamable.InputStreamWrapper is = new NamedStreamable.InputStreamWrapper(inputStream);
                     MerkleNode response = ipfs.add(is).get(0);
                     req.setDiplomaLink(response.hash.toBase58());
+                    CustomUserPrincipal userPrincipal = (CustomUserPrincipal) SecurityContextHolder.getContext()
+                            .getAuthentication().getPrincipal();
+                    chainCode.updateDiploma(diplomaMapper.getSerialNumberById(req.getId()), "", req.getDiplomaLink(),
+                            "src/main/resources/connection-org1.yaml", userPrincipal.getSubId());
                 }
                 diplomaMapper.partialUpdate(req);
             } catch (IOException ex) {
@@ -122,6 +129,7 @@ public class DiplomaServiceImpl implements DiplomaService {
         Diploma dipExist = diplomaMapper.findOneByRefNumber(refNumber);
         if (dipExist != null) {
             diplomaMapper.updateStatus(req.getStatus().toString(), refNumber);
+
             if (dipExist.getSerialNumber() != null && !"".equals(dipExist.getSerialNumber())) {
                 if (req.getStatus().equals(DiplomaStatusEnum.DAHONG) &&
                         !dipExist.getStatus().equals(DiplomaStatusEnum.DAHONG)) {
@@ -130,6 +138,10 @@ public class DiplomaServiceImpl implements DiplomaService {
                         dipExist.getStatus().equals(DiplomaStatusEnum.DAHONG)) {
                     phoiMapper.decreaseCountPhoiBroken(dipExist.getSerialNumber());
                 }
+                CustomUserPrincipal userPrincipal = (CustomUserPrincipal) SecurityContextHolder.getContext()
+                        .getAuthentication().getPrincipal();
+                chainCode.updateDiploma(diplomaMapper.getSerialNumberById(dipExist.getId()), req.getStatus().toString(),
+                        "", "src/main/resources/connection-org1.yaml", userPrincipal.getSubId());
             }
         }
 
@@ -149,5 +161,12 @@ public class DiplomaServiceImpl implements DiplomaService {
     @Override
     public List<Long> getListYearGraduation() {
         return diplomaMapper.selectListYearGraduation();
+    }
+
+    @Override
+    public List<DiplomaResSearch> search(DiplomaSearchDto diplomaSearchDto) {
+        List<DiplomaResSearch> diplomaDtoList = diplomaMapper.search(diplomaSearchDto);
+        chainCode.compareDataBlockchain(diplomaDtoList, "src/main/resources/connection-org1.yaml", "admin");
+        return diplomaDtoList;
     }
 }

@@ -4,6 +4,7 @@ import io.ketlv.ediplomadapp.domain.Diploma;
 import io.ketlv.ediplomadapp.domain.Phoi;
 import io.ketlv.ediplomadapp.mapper.DiplomaMapper;
 import io.ketlv.ediplomadapp.mapper.PhoiMapper;
+import io.ketlv.ediplomadapp.security.model.CustomUserPrincipal;
 import io.ketlv.ediplomadapp.services.PhoiService;
 import io.ketlv.ediplomadapp.services.dto.PhoiDtoReq;
 import io.ketlv.ediplomadapp.services.dto.PhoiDtoRes;
@@ -13,6 +14,7 @@ import io.ketlv.ediplomadapp.services.fabric.ChainCode;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class PhoiServiceImpl implements PhoiService {
     private final PhoiMapper phoiMapper;
     private final DiplomaMapper diplomaMapper;
+    private final ChainCode chainCode;
 
     @Override
     public void addPhoi(PhoiDtoReq phoiDto) {
@@ -42,9 +45,9 @@ public class PhoiServiceImpl implements PhoiService {
         phoiMapper.insert(phoi);
         List<Diploma> diplomaList = diplomaMapper.selectAllByRangeSerialNumber(phoi.getSerialNumberBegin(), phoi.getSerialNumberEnd());
         try {
-            for(Diploma dip : diplomaList) {
-                ChainCode.issueDiploma(dip, "src/main/resources/connection-org1.yaml");
-            }
+            CustomUserPrincipal userPrincipal = (CustomUserPrincipal) SecurityContextHolder.getContext()
+                    .getAuthentication().getPrincipal();
+            chainCode.issueDiploma(diplomaList, "src/main/resources/connection-org1.yaml", userPrincipal.getSubId());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,13 +118,18 @@ public class PhoiServiceImpl implements PhoiService {
     }
 
     private void UpdatePropertiesPhoi(PhoiDtoReq phoiDto, Phoi phoi, AtomicReference<Long> maxNumber, long serialNumberEnd, String diplomaTypeSymbol) {
-        phoi.setSerialNumberBegin("DND." + phoiDto.getDiplomaTypeSymbol() + "." + (maxNumber.get() + 1));
+        int max = (int) (maxNumber.get() + 1);
+        String serial = String.valueOf(max);
+        for (int idx = 0; idx < (7 - maxNumber.get().toString().length()); idx++) serial = '0' + serial;
+        phoi.setSerialNumberBegin("DND." + phoiDto.getDiplomaTypeSymbol() + "." + serial);
         List<Diploma> diplomas = diplomaMapper.getAllByDonviAndDiplomaType(phoiDto.getDonviSymbol(), diplomaTypeSymbol);
         updateSerialDiploma(diplomas, maxNumber, serialNumberEnd, phoiDto.getDiplomaTypeSymbol());
         int unusedNumber = phoiDto.getSoluong() - diplomas.size();
         phoi.setAmountIssuedStudent(unusedNumber > 0 ? diplomas.size() : phoiDto.getSoluong());
         phoi.setAmountIssuedNewPrint(phoiDto.getSoluong());
-        phoi.setSerialNumberEnd("DND." + phoiDto.getDiplomaTypeSymbol() + "." + serialNumberEnd);
+        serial = String.valueOf(serialNumberEnd);
+        for (int idx = 0; idx < (7 - String.valueOf(serialNumberEnd).length()); idx++) serial = '0' + serial;
+        phoi.setSerialNumberEnd("DND." + phoiDto.getDiplomaTypeSymbol() + "." + serial);
         if (unusedNumber > 0) {
             phoi.setAmountUnused(unusedNumber);
         } else {
@@ -136,9 +144,11 @@ public class PhoiServiceImpl implements PhoiService {
                 if(maxNumber.get() > serialNumberEnd) {
                     return;
                 }
+                String serial = String.valueOf(maxNumber.get());
+                for (int idx = 0; idx < (7 - maxNumber.get().toString().length()); idx++) serial = '0' + serial;
                 diplomaMapper.updateSerialNumber("DND." + diplomaTypeSymbol + "."
-                        + String.valueOf(maxNumber.getAndSet(maxNumber.get() + 1)), dip.getReferenceNumber());
-                ;
+                        + serial, dip.getReferenceNumber());
+                maxNumber.getAndSet(maxNumber.get() + 1);
             });
         }
     }

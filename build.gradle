@@ -43,6 +43,9 @@ dependencies {
     implementation 'com.github.ipfs:java-ipfs-http-client:v1.3.3'
     // https://mvnrepository.com/artifact/io.minio/minio
     implementation 'io.minio:minio:8.2.1'
+    implementation 'com.starkbank.ellipticcurve:starkbank-ecdsa:1.0.2'
+    // https://mvnrepository.com/artifact/joda-time/joda-time
+    implementation 'joda-time:joda-time:2.12.5'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -54,4 +57,10 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'io.ketlv.ediplomadapp.EdiplomaDappApplication'
+    }
 }
