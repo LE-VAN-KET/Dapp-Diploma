@@ -13,7 +13,7 @@ public class IPFSConfig {
     public IPFS ipfs;
 
     public IPFSConfig() {
-        ipfs = new IPFS("34.143.181.194", 5001);
+        ipfs = new IPFS("34.124.130.151", 5001);
     }
 
 }

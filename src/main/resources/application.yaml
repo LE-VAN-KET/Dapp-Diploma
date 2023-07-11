@@ -12,7 +12,7 @@ spring:
     drop-first: false
 
   datasource:
-    url: jdbc:postgresql://34.143.181.194:5432/qldipolma?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    url: jdbc:postgresql://34.124.130.151:5432/qldipolma?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
     username: myapp
     password: password
     hikari:
@@ -21,7 +21,7 @@ spring:
 
   redis:
     database: 0
-    address: redis://34.143.181.194:6379
+    address: redis://34.124.130.151:6379
     connection-pool-size: 4
     connection-minimum-idle-size: 2
     token-prefix: capstone:token
@@ -68,6 +68,6 @@ minio:
   access:
     key: admin
     secret: password@123
-  url: http://34.143.181.194:9000
+  url: http://34.124.130.151:9000
 
 

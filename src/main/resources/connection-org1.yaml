@@ -17,22 +17,22 @@ organizations:
       - ca_issuer
 peers:
   peer0.issuer.com:
-    url: grpcs://34.143.181.194:7051
+    url: grpcs://34.124.130.151:7051
     tlsCACerts:
       pem: |
         -----BEGIN CERTIFICATE-----
-        MIICFjCCAb2gAwIBAgIUXRs3wnu4Fn7ACtnhAR7CaG3hjT4wCgYIKoZIzj0EAwIw
+        MIICFzCCAb2gAwIBAgIUNJHMcWmJdbsYphOM+5kcT4apOU4wCgYIKoZIzj0EAwIw
         aDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQK
         EwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMt
-        Y2Etc2VydmVyMB4XDTIzMDcwNzIwNDQwMFoXDTM4MDcwMzIwNDQwMFowaDELMAkG
+        Y2Etc2VydmVyMB4XDTIzMDcxMTE2MzMwMFoXDTM4MDcwNzE2MzMwMFowaDELMAkG
         A1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQKEwtIeXBl
         cmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMtY2Etc2Vy
-        dmVyMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+kyTRLLI8rFxo013M5JIuEBe
-        dPAz5RKzPK2RahHf3Q1McVRlurxetsfb7BxXVWy6+CNyJ2N3HP1XPRysMbUILaNF
+        dmVyMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJt+u2A4unMY/P30fTOiCdcHi
+        7cTl+y0ZVb78wQOC64jlwbMKIWCa8n1b1y5m8XDQTdKxRWkYmt/GCawxL10F86NF
         MEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE
-        FGTkTGR4LyyKtxw0wnO9lRAgBgr3MAoGCCqGSM49BAMCA0cAMEQCIBYmT5z1EfNv
-        PfH5Afx1XqU36fiG+xMHQmZq8vTp9YocAiBRybUmLqRhGV60ut+a1TDTFsl4ZRjS
-        8tVT5wBsjd/k5A==
+        FJ1YwNV8HJna/eq+kK2yUbB3dRTeMAoGCCqGSM49BAMCA0gAMEUCIQC4XGoS/AU7
+        zz1RmSNrckZ2nDAwoKKl/VknBnvxv6cIEwIgKOj8ISUg5+8TG7OxyZw2wv6ptvIr
+        LapPBDFwbeaZkpI=
         -----END CERTIFICATE-----
 
     grpcOptions:
@@ -40,22 +40,22 @@ peers:
       hostnameOverride: peer0.issuer.com
 
   peer1.issuer.com:
-    url: grpcs://34.143.181.194:7051
+    url: grpcs://34.124.130.151:7051
     tlsCACerts:
       pem: |
         -----BEGIN CERTIFICATE-----
-        MIICFjCCAb2gAwIBAgIUXRs3wnu4Fn7ACtnhAR7CaG3hjT4wCgYIKoZIzj0EAwIw
+        MIICFzCCAb2gAwIBAgIUNJHMcWmJdbsYphOM+5kcT4apOU4wCgYIKoZIzj0EAwIw
         aDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQK
         EwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMt
-        Y2Etc2VydmVyMB4XDTIzMDcwNzIwNDQwMFoXDTM4MDcwMzIwNDQwMFowaDELMAkG
+        Y2Etc2VydmVyMB4XDTIzMDcxMTE2MzMwMFoXDTM4MDcwNzE2MzMwMFowaDELMAkG
         A1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQKEwtIeXBl
         cmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMtY2Etc2Vy
-        dmVyMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+kyTRLLI8rFxo013M5JIuEBe
-        dPAz5RKzPK2RahHf3Q1McVRlurxetsfb7BxXVWy6+CNyJ2N3HP1XPRysMbUILaNF
+        dmVyMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJt+u2A4unMY/P30fTOiCdcHi
+        7cTl+y0ZVb78wQOC64jlwbMKIWCa8n1b1y5m8XDQTdKxRWkYmt/GCawxL10F86NF
         MEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE
-        FGTkTGR4LyyKtxw0wnO9lRAgBgr3MAoGCCqGSM49BAMCA0cAMEQCIBYmT5z1EfNv
-        PfH5Afx1XqU36fiG+xMHQmZq8vTp9YocAiBRybUmLqRhGV60ut+a1TDTFsl4ZRjS
-        8tVT5wBsjd/k5A==
+        FJ1YwNV8HJna/eq+kK2yUbB3dRTeMAoGCCqGSM49BAMCA0gAMEUCIQC4XGoS/AU7
+        zz1RmSNrckZ2nDAwoKKl/VknBnvxv6cIEwIgKOj8ISUg5+8TG7OxyZw2wv6ptvIr
+        LapPBDFwbeaZkpI=
         -----END CERTIFICATE-----
 
     grpcOptions:
@@ -63,24 +63,24 @@ peers:
       hostnameOverride: peer0.issuer.com
 certificateAuthorities:
   ca_issuer:
-    url: https://34.143.181.194:1054
+    url: https://34.124.130.151:1054
     caName: ca_issuer
     tlsCACerts:
       pem:
         - |
           -----BEGIN CERTIFICATE-----
-          MIICFjCCAb2gAwIBAgIUXRs3wnu4Fn7ACtnhAR7CaG3hjT4wCgYIKoZIzj0EAwIw
+          MIICFzCCAb2gAwIBAgIUNJHMcWmJdbsYphOM+5kcT4apOU4wCgYIKoZIzj0EAwIw
           aDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQK
           EwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMt
-          Y2Etc2VydmVyMB4XDTIzMDcwNzIwNDQwMFoXDTM4MDcwMzIwNDQwMFowaDELMAkG
+          Y2Etc2VydmVyMB4XDTIzMDcxMTE2MzMwMFoXDTM4MDcwNzE2MzMwMFowaDELMAkG
           A1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQKEwtIeXBl
           cmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRkwFwYDVQQDExBmYWJyaWMtY2Etc2Vy
-          dmVyMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+kyTRLLI8rFxo013M5JIuEBe
-          dPAz5RKzPK2RahHf3Q1McVRlurxetsfb7BxXVWy6+CNyJ2N3HP1XPRysMbUILaNF
+          dmVyMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJt+u2A4unMY/P30fTOiCdcHi
+          7cTl+y0ZVb78wQOC64jlwbMKIWCa8n1b1y5m8XDQTdKxRWkYmt/GCawxL10F86NF
           MEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE
-          FGTkTGR4LyyKtxw0wnO9lRAgBgr3MAoGCCqGSM49BAMCA0cAMEQCIBYmT5z1EfNv
-          PfH5Afx1XqU36fiG+xMHQmZq8vTp9YocAiBRybUmLqRhGV60ut+a1TDTFsl4ZRjS
-          8tVT5wBsjd/k5A==
+          FJ1YwNV8HJna/eq+kK2yUbB3dRTeMAoGCCqGSM49BAMCA0gAMEUCIQC4XGoS/AU7
+          zz1RmSNrckZ2nDAwoKKl/VknBnvxv6cIEwIgKOj8ISUg5+8TG7OxyZw2wv6ptvIr
+          LapPBDFwbeaZkpI=
           -----END CERTIFICATE-----
 
     httpOptions:

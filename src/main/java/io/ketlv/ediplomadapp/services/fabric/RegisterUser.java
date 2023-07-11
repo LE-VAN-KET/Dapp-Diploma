@@ -26,7 +26,7 @@ public class RegisterUser {
 		props.put("pemFile",
 			"src/main/resources/ca."+ org + "-cert.pem");
 		props.put("allowAllHostNames", "true");
-		HFCAClient caClient = HFCAClient.createNewInstance("https://34.143.181.194:" + port, props);
+		HFCAClient caClient = HFCAClient.createNewInstance("https://34.124.130.151:" + port, props);
 		CryptoSuite cryptoSuite = CryptoSuiteFactory.getDefault().getCryptoSuite();
 		caClient.setCryptoSuite(cryptoSuite);
 
